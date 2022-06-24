@@ -1,8 +1,8 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="GenerateAssociateReport" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:p="http://schemas.uipath.com/workflow/activities/word" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
-    <x:Property Name="in_QCAverage" Type="InArgument(x:String)" />
-    <x:Property Name="in_ChecklistCompletion" Type="InArgument(x:String)" />
+    <x:Property Name="in_QCAverage" Type="InArgument(x:Decimal)" />
+    <x:Property Name="in_ChecklistCompletion" Type="InArgument(x:Decimal)" />
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
   <mva:VisualBasic.Settings>
@@ -112,8 +112,8 @@
             </sap:WorkflowViewStateService.ViewState>
             <p:WordReplaceText Found="{x:Null}" DisplayName="Enter associate name" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_1" Replace="[associateName]" ReplaceAll="False" Search="{}{Associate_Name}" />
             <p:WordReplaceText Found="{x:Null}" DisplayName="Replace Text in Document" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_4" Replace="[Now.ToShortDateString]" ReplaceAll="False" Search="{}{Report_Date}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter QC average" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_2" Replace="[in_QCAverage]" ReplaceAll="False" Search="{}{QC_Average}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter checklist completion" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_3" Replace="[in_ChecklistCompletion]" ReplaceAll="True" Search="{}{Checklist_Completion}" />
+            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter QC average" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_2" Replace="[in_QCAverage.ToString]" ReplaceAll="False" Search="{}{QC_Average}" />
+            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter checklist completion" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_3" Replace="[in_ChecklistCompletion.ToString]" ReplaceAll="True" Search="{}{Checklist_Completion}" />
             <If Condition="[in_Config(&quot;OutputAssociateReportPath&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if custom output directory is set" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_1">
               <If.Then>
                 <Assign DisplayName="Set output directory to default" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_1">
