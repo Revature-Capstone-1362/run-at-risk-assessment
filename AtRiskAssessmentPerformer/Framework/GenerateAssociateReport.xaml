@@ -8,7 +8,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1208,3043</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>2572,2281</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GenerateAssociateReport_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="31">
@@ -73,10 +73,9 @@
       <AssemblyReference>UiPath.Word</AssemblyReference>
       <AssemblyReference>UiPath.Word.Activities</AssemblyReference>
       <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GenerateAssociateReport" sap:VirtualizedContainerService.HintSize="755,2938" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GenerateAssociateReport" sap:VirtualizedContainerService.HintSize="2582,2176" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="associateName" />
       <Variable x:TypeArguments="x:String" Name="trainerEmail" />
@@ -92,9 +91,9 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="713,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Generating associate report...&quot;]" />
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get Credential" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="713,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
-    <ui:MultipleAssign DisplayName="Get information from transaction item for ease of access" sap:VirtualizedContainerService.HintSize="713,224" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="2540,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Generating associate report...&quot;]" />
+    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get Credential" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="2540,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
+    <ui:MultipleAssign DisplayName="Get information from transaction item for ease of access" sap:VirtualizedContainerService.HintSize="2540,224" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
@@ -140,25 +139,27 @@
         </scg:List>
       </ui:MultipleAssign.AssignOperations>
     </ui:MultipleAssign>
-    <ui:CopyFile ContinueOnError="{x:Null}" Destination="Data\Temp\Associate At-Risk Report Template.docx" DisplayName="Make a copy of template into temp directory" sap:VirtualizedContainerService.HintSize="713,157" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="Data\Input\Associate At-Risk Report Template.docx" />
-    <p:WordApplicationScope DisplayName="Open report template" FilePath="Data\Temp\Associate At-Risk Report Template.docx" sap:VirtualizedContainerService.HintSize="713,1567" sap2010:WorkflowViewState.IdRef="WordApplicationScope_1">
+    <ui:CopyFile ContinueOnError="{x:Null}" Destination="Data\Temp\Associate At-Risk Report Template.docx" DisplayName="Make a copy of template into temp directory" sap:VirtualizedContainerService.HintSize="2540,157" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="Data\Input\Associate At-Risk Report Template.docx" />
+    <p:WordApplicationScope DisplayName="Open report template" FilePath="Data\Temp\Associate At-Risk Report Template.docx" sap:VirtualizedContainerService.HintSize="2540,805" sap2010:WorkflowViewState.IdRef="WordApplicationScope_1">
       <p:WordApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WordDocument">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="ui:WordDocument" Name="WordDocumentScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="611,1458" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="2506,696" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter associate name" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_1" Replace="[associateName]" ReplaceAll="False" Search="{}{Associate_Name}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter cohort identifier" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_5" Replace="[cohortIdentifier]" ReplaceAll="False" Search="{}{GitHub_Organization}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter report generation date" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_4" Replace="[Now.ToShortDateString]" ReplaceAll="False" Search="{}{Report_Date}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter QC average" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_2" Replace="[in_QCAverage.ToString(&quot;#.##&quot;)]" ReplaceAll="False" Search="{}{QC_Average}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter checklist completion" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_3" Replace="[String.Format(&quot;{0}%&quot;, (in_ChecklistCompletion * 100).ToString(&quot;#.##&quot;))]" ReplaceAll="False" Search="{}{Checklist_Completion}" />
-            <If Condition="[in_Config(&quot;OutputAssociateReportPath&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if custom output directory is set" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_1">
+            <Parallel sap:VirtualizedContainerService.HintSize="2464,208" sap2010:WorkflowViewState.IdRef="Parallel_1">
+              <p:WordReplaceText Found="{x:Null}" DisplayName="Enter associate name" sap:VirtualizedContainerService.HintSize="434,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_1" Replace="[associateName]" ReplaceAll="False" Search="{}{Associate_Name}" />
+              <p:WordReplaceText Found="{x:Null}" DisplayName="Enter cohort identifier" sap:VirtualizedContainerService.HintSize="434,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_5" Replace="[cohortIdentifier]" ReplaceAll="False" Search="{}{GitHub_Organization}" />
+              <p:WordReplaceText Found="{x:Null}" DisplayName="Enter report generation date" sap:VirtualizedContainerService.HintSize="434,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_4" Replace="[Now.ToShortDateString]" ReplaceAll="False" Search="{}{Report_Date}" />
+              <p:WordReplaceText Found="{x:Null}" DisplayName="Enter QC average" sap:VirtualizedContainerService.HintSize="434,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_2" Replace="[in_QCAverage.ToString(&quot;#.##&quot;)]" ReplaceAll="False" Search="{}{QC_Average}" />
+              <p:WordReplaceText Found="{x:Null}" DisplayName="Enter checklist completion" sap:VirtualizedContainerService.HintSize="434,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_3" Replace="[String.Format(&quot;{0}%&quot;, (in_ChecklistCompletion * 100).ToString(&quot;#.##&quot;))]" ReplaceAll="False" Search="{}{Checklist_Completion}" />
+            </Parallel>
+            <If Condition="[in_Config(&quot;OutputAssociateReportPath&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if custom output directory is set" sap:VirtualizedContainerService.HintSize="2464,207" sap2010:WorkflowViewState.IdRef="If_1">
               <If.Then>
                 <Assign DisplayName="Set output directory to default" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_1">
                   <Assign.To>
