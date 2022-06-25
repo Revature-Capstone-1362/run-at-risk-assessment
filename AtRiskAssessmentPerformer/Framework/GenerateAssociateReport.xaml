@@ -8,10 +8,10 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1208,2779</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1208,3043</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GenerateAssociateReport_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="52">
+    <scg:List x:TypeArguments="x:String" Capacity="31">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -46,7 +46,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="52">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="27">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -72,11 +72,11 @@
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>UiPath.Word</AssemblyReference>
       <AssemblyReference>UiPath.Word.Activities</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GenerateAssociateReport" sap:VirtualizedContainerService.HintSize="755,2674" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GenerateAssociateReport" sap:VirtualizedContainerService.HintSize="755,2938" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="associateName" />
       <Variable x:TypeArguments="x:String" Name="trainerEmail" />
@@ -84,6 +84,8 @@
       <Variable x:TypeArguments="x:String" Name="emailUsername" />
       <Variable x:TypeArguments="ss:SecureString" Name="emailPassword" />
       <Variable x:TypeArguments="x:String" Name="outputPath" />
+      <Variable x:TypeArguments="x:String" Name="cohortIdentifier" />
+      <Variable x:TypeArguments="x:String" Name="trainerName" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -92,9 +94,9 @@
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="713,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Generating associate report...&quot;]" />
     <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get Credential" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="713,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
-    <ui:MultipleAssign DisplayName="Get information from transaction item for ease of access" sap:VirtualizedContainerService.HintSize="713,162" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:MultipleAssign DisplayName="Get information from transaction item for ease of access" sap:VirtualizedContainerService.HintSize="713,224" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
-        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
             <ui:AssignOperation.To>
               <OutArgument x:TypeArguments="x:String">[associateName]</OutArgument>
@@ -119,24 +121,41 @@
               <InArgument x:TypeArguments="x:String">[String.Format("{0}@revature.com", in_TransactionItem.SpecificContent("Manager_Name").ToString.Replace(" ", "."))]</InArgument>
             </ui:AssignOperation.Value>
           </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[cohortIdentifier]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("GitHub_Organization").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[trainerName]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("Trainer_Name").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
         </scg:List>
       </ui:MultipleAssign.AssignOperations>
     </ui:MultipleAssign>
     <ui:CopyFile ContinueOnError="{x:Null}" Destination="Data\Temp\Associate At-Risk Report Template.docx" DisplayName="Make a copy of template into temp directory" sap:VirtualizedContainerService.HintSize="713,157" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="Data\Input\Associate At-Risk Report Template.docx" />
-    <p:WordApplicationScope DisplayName="Open report template" FilePath="Data\Temp\Associate At-Risk Report Template.docx" sap:VirtualizedContainerService.HintSize="713,1365" sap2010:WorkflowViewState.IdRef="WordApplicationScope_1">
+    <p:WordApplicationScope DisplayName="Open report template" FilePath="Data\Temp\Associate At-Risk Report Template.docx" sap:VirtualizedContainerService.HintSize="713,1567" sap2010:WorkflowViewState.IdRef="WordApplicationScope_1">
       <p:WordApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WordDocument">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="ui:WordDocument" Name="WordDocumentScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="611,1256" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="611,1458" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <p:WordReplaceText Found="{x:Null}" DisplayName="Enter associate name" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_1" Replace="[associateName]" ReplaceAll="False" Search="{}{Associate_Name}" />
-            <p:WordReplaceText Found="{x:Null}" DisplayName="Replace Text in Document" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_4" Replace="[Now.ToShortDateString]" ReplaceAll="False" Search="{}{Report_Date}" />
+            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter cohort identifier" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_5" Replace="[cohortIdentifier]" ReplaceAll="False" Search="{}{GitHub_Organization}" />
+            <p:WordReplaceText Found="{x:Null}" DisplayName="Enter report generation date" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_4" Replace="[Now.ToShortDateString]" ReplaceAll="False" Search="{}{Report_Date}" />
             <p:WordReplaceText Found="{x:Null}" DisplayName="Enter QC average" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_2" Replace="[in_QCAverage.ToString(&quot;#.##&quot;)]" ReplaceAll="False" Search="{}{QC_Average}" />
             <p:WordReplaceText Found="{x:Null}" DisplayName="Enter checklist completion" sap:VirtualizedContainerService.HintSize="569,162" sap2010:WorkflowViewState.IdRef="WordReplaceText_3" Replace="[String.Format(&quot;{0}%&quot;, (in_ChecklistCompletion * 100).ToString(&quot;#.##&quot;))]" ReplaceAll="False" Search="{}{Checklist_Completion}" />
             <If Condition="[in_Config(&quot;OutputAssociateReportPath&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if custom output directory is set" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_1">
@@ -168,23 +187,19 @@
     </p:WordApplicationScope>
     <If Condition="[in_Config(&quot;OverrideEmail&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if email override is set" sap:VirtualizedContainerService.HintSize="713,296" sap2010:WorkflowViewState.IdRef="If_2">
       <If.Then>
-        <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[String.Format(&quot;Please see attached associate at-risk report.&quot;)]" DisplayName="Send email to trainer and manager" Email="[emailUsername]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="334,148" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHtml="False" Port="[Integer.Parse(in_Config(&quot;EmailPort&quot;).ToString)]" SecureConnection="Auto" SecurePassword="[emailPassword]" Server="[in_Config(&quot;EmailServer&quot;).ToString]" Subject="Associate At-Risk Assessment" To="[String.Format(&quot;{0},{1}&quot;, trainerEmail, managerEmail)]">
+        <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[String.Format(&quot;Please see attached at-risk report for {0} in {1} with {2}.&quot;, associateName, cohortIdentifier, trainerName)]" DisplayName="Send email to trainer and manager" Email="[emailUsername]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="334,148" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHtml="False" Port="[Integer.Parse(in_Config(&quot;EmailPort&quot;).ToString)]" SecureConnection="Auto" SecurePassword="[emailPassword]" Server="[in_Config(&quot;EmailServer&quot;).ToString]" Subject="Associate At-Risk Assessment" To="[String.Format(&quot;{0},{1}&quot;, trainerEmail, managerEmail)]">
           <ui:SendMail.Files>
             <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
-              <InArgument x:TypeArguments="x:String">
-                <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="String.Format(&quot;{0}\{1} Associate At-Risk Report - {2}.pdf&quot;, outputPath, associateName, Now.ToString(&quot;MM-dd-yyyy&quot;))" />
-              </InArgument>
+              <InArgument x:TypeArguments="x:String">[String.Format("{0}\{1} Associate At-Risk Report - {2}.pdf", outputPath, associateName, Now.ToString("MM-dd-yyyy"))]</InArgument>
             </scg:List>
           </ui:SendMail.Files>
         </ui:SendMail>
       </If.Then>
       <If.Else>
-        <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[String.Format(&quot;Please see attached associate at-risk report.&quot;)]" DisplayName="Send email to overried email(s)" Email="[emailUsername]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="334,148" sap2010:WorkflowViewState.IdRef="SendMail_2" IsBodyHtml="False" Port="[Integer.Parse(in_Config(&quot;EmailPort&quot;).ToString)]" SecureConnection="Auto" SecurePassword="[emailPassword]" Server="[in_Config(&quot;EmailServer&quot;).ToString]" Subject="Associate At-Risk Assessment" To="[in_Config(&quot;OverrideEmail&quot;).ToString]">
+        <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[String.Format(&quot;Please see attached at-risk report for {0} in {1} with {2}.&quot;, associateName, cohortIdentifier, trainerName)]" DisplayName="Send email to override email(s)" Email="[emailUsername]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="334,148" sap2010:WorkflowViewState.IdRef="SendMail_2" IsBodyHtml="False" Port="[Integer.Parse(in_Config(&quot;EmailPort&quot;).ToString)]" SecureConnection="Auto" SecurePassword="[emailPassword]" Server="[in_Config(&quot;EmailServer&quot;).ToString]" Subject="Associate At-Risk Assessment" To="[in_Config(&quot;OverrideEmail&quot;).ToString]">
           <ui:SendMail.Files>
             <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
-              <InArgument x:TypeArguments="x:String">
-                <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="String.Format(&quot;{0}\{1} Associate At-Risk Report - {2}.pdf&quot;, outputPath, associateName, Now.ToString(&quot;MM-dd-yyyy&quot;))" />
-              </InArgument>
+              <InArgument x:TypeArguments="x:String">[String.Format("{0}\{1} Associate At-Risk Report - {2}.pdf", outputPath, associateName, Now.ToString("MM-dd-yyyy"))]</InArgument>
             </scg:List>
           </ui:SendMail.Files>
         </ui:SendMail>

@@ -69,18 +69,14 @@
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>NPOI</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="809,1083" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Decimal" Name="QCAverage" />
-      <Variable x:TypeArguments="x:Decimal" Name="ChecklistCompletion">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:Decimal" ExpressionText="1" />
-        </Variable.Default>
-      </Variable>
+      <Variable x:TypeArguments="x:Decimal" Default="[1]" Name="ChecklistCompletion" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -107,15 +103,11 @@
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
-        <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="683,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Determine if at-risk report is necessary...&quot;]" />
+        <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="683,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Determine if associate at-risk report is necessary...&quot;]" />
         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke GetQCAverage workflow" sap:VirtualizedContainerService.HintSize="683,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Framework\GetQCAverage.xaml">
           <ui:InvokeWorkflowFile.Arguments>
-            <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-              <mva:VisualBasicValue x:TypeArguments="ui:QueueItem" ExpressionText="in_TransactionItem" />
-            </InArgument>
-            <OutArgument x:TypeArguments="x:Decimal" x:Key="out_QCAverage">
-              <mva:VisualBasicReference x:TypeArguments="x:Decimal" ExpressionText="QCAverage" />
-            </OutArgument>
+            <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">[in_TransactionItem]</InArgument>
+            <OutArgument x:TypeArguments="x:Decimal" x:Key="out_QCAverage">[QCAverage]</OutArgument>
           </ui:InvokeWorkflowFile.Arguments>
         </ui:InvokeWorkflowFile>
         <If Condition="[(QCAverage &lt;= 2.0) Or (ChecklistCompletion &lt; 0.75)]" sap:VirtualizedContainerService.HintSize="683,452" sap2010:WorkflowViewState.IdRef="If_1">
@@ -136,18 +128,10 @@
               </Assign>
               <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke GenerateAssociateReport workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\GenerateAssociateReport.xaml">
                 <ui:InvokeWorkflowFile.Arguments>
-                  <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                    <mva:VisualBasicValue x:TypeArguments="ui:QueueItem" ExpressionText="in_TransactionItem" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:Decimal" x:Key="in_QCAverage">
-                    <mva:VisualBasicValue x:TypeArguments="x:Decimal" ExpressionText="QCAverage" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="x:Decimal" x:Key="in_ChecklistCompletion">
-                    <mva:VisualBasicValue x:TypeArguments="x:Decimal" ExpressionText="ChecklistCompletion" />
-                  </InArgument>
-                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
-                    <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
-                  </InArgument>
+                  <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">[in_TransactionItem]</InArgument>
+                  <InArgument x:TypeArguments="x:Decimal" x:Key="in_QCAverage">[QCAverage]</InArgument>
+                  <InArgument x:TypeArguments="x:Decimal" x:Key="in_ChecklistCompletion">[ChecklistCompletion]</InArgument>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
                 </ui:InvokeWorkflowFile.Arguments>
               </ui:InvokeWorkflowFile>
             </Sequence>
