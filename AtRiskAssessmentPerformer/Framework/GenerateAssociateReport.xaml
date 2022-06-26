@@ -92,7 +92,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="2540,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Generating associate report...&quot;]" />
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get Credential" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="2540,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
+    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get email credentials" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="2540,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
     <ui:MultipleAssign DisplayName="Get information from transaction item for ease of access" sap:VirtualizedContainerService.HintSize="2540,224" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
