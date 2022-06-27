@@ -165,12 +165,27 @@
                       </sap:WorkflowViewStateService.ViewState>
                       <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" ContinueOnError="True" DisplayName="Add associate to queue" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_2" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]">
                         <ui:AddQueueItem.ItemInformation>
-                          <InArgument x:TypeArguments="x:String" x:Key="Assessment_Type">Associate</InArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="Associate_Name">[item("Associate_Name").ToString]</InArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="Trainer_Name">[currentTrainerName]</InArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="Manager_Name">[currentManagerName]</InArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="GitHub_Organization">[currentCohort]</InArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="QC_Metrics">[item("QC_Metrics").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Assessment_Type">
+                            <Literal x:TypeArguments="x:String">Associate</Literal>
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Associate_Name">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="item(&quot;Associate_Name&quot;).ToString" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Trainer_Name">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentTrainerName" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Manager_Name">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentManagerName" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="GitHub_Organization">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentCohort" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Core_Language">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="item(&quot;Core_Language&quot;).ToString" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="QC_Metrics">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="item(&quot;QC_Metrics&quot;).ToString" />
+                          </InArgument>
                         </ui:AddQueueItem.ItemInformation>
                       </ui:AddQueueItem>
                     </FlowStep>
@@ -209,18 +224,10 @@
     </ui:ForEachRow>
     <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" ContinueOnError="True" DisplayName="Add cohort to queue" sap:VirtualizedContainerService.HintSize="668,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_4" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]">
       <ui:AddQueueItem.ItemInformation>
-        <InArgument x:TypeArguments="x:String" x:Key="Assessment_Type">
-          <Literal x:TypeArguments="x:String">Cohort</Literal>
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="Trainer_Name">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentTrainerName" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="Manager_Name">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentManagerName" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="GitHub_Organization">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentCohort" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Assessment_Type">Cohort</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Trainer_Name">[currentTrainerName]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Manager_Name">[currentManagerName]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="GitHub_Organization">[currentCohort]</InArgument>
       </ui:AddQueueItem.ItemInformation>
     </ui:AddQueueItem>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="668,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Transaction items added to queue...&quot;]" />

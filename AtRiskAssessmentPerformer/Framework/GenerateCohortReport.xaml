@@ -105,7 +105,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="2066,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Generating cohort report...&quot;]" />
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get Credential" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="2066,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
+    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[in_Config(&quot;EmailCredentialAssetName&quot;).ToString]" DisplayName="Get email credentials" FolderPath="[in_Config(&quot;EmailCredentialFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="2066,180" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[emailPassword]" Username="[emailUsername]" />
     <ui:MultipleAssign DisplayName="Get trainer and manager emails" sap:VirtualizedContainerService.HintSize="2066,193" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
@@ -185,12 +185,12 @@
                 </Assign>
               </If.Else>
             </If>
-            <p:WordExportToPdf DisplayName="Export report as PDF" FilePath="[String.Format(&quot;{0}\{1} Cohort At-Risk Report - {2}.pdf&quot;, outputPath, cohortIdentifier, Now.ToString(&quot;MM-dd-yyyy&quot;))]" sap:VirtualizedContainerService.HintSize="569,109" sap2010:WorkflowViewState.IdRef="WordExportToPdf_2" />
+            <p:WordExportToPdf DisplayName="Export report as PDF" FilePath="[String.Format(&quot;{0}\{1} Cohort At-Risk Report - {2}.pdf&quot;, outputPath, cohortIdentifier, Now.ToString(&quot;MM-dd-yyyy&quot;))]" sap:VirtualizedContainerService.HintSize="1990,109" sap2010:WorkflowViewState.IdRef="WordExportToPdf_2" />
           </Sequence>
         </ActivityAction>
       </p:WordApplicationScope.Body>
     </p:WordApplicationScope>
-    <If Condition="[in_Config(&quot;OverrideEmail&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if email override is set" sap:VirtualizedContainerService.HintSize="713,296" sap2010:WorkflowViewState.IdRef="If_2">
+    <If Condition="[in_Config(&quot;OverrideEmail&quot;).ToString.Equals(&quot;&quot;)]" DisplayName="Check if email override is set" sap:VirtualizedContainerService.HintSize="2066,296" sap2010:WorkflowViewState.IdRef="If_2">
       <If.Then>
         <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" Password="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[String.Format(&quot;Please see attached at-risk report for {0} with {1}.&quot;, cohortIdentifier, trainerName)]" DisplayName="Send email to trainer and manager" Email="[emailUsername]" EnableSSL="True" sap:VirtualizedContainerService.HintSize="334,148" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHtml="False" Port="[Integer.Parse(in_Config(&quot;EmailPort&quot;).ToString)]" SecureConnection="Auto" SecurePassword="[emailPassword]" Server="[in_Config(&quot;EmailServer&quot;).ToString]" Subject="Cohort At-Risk Assessment" To="[String.Format(&quot;{0},{1}&quot;, trainerEmail, managerEmail)]">
           <ui:SendMail.Files>
@@ -210,6 +210,6 @@
         </ui:SendMail>
       </If.Else>
     </If>
-    <ui:LogMessage DisplayName="Log end of workflow" sap:VirtualizedContainerService.HintSize="713,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Cohort report generated and emailed...&quot;]" />
+    <ui:LogMessage DisplayName="Log end of workflow" sap:VirtualizedContainerService.HintSize="2066,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Cohort report generated and emailed...&quot;]" />
   </Sequence>
 </Activity>

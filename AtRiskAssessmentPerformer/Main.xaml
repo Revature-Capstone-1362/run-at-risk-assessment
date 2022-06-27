@@ -699,7 +699,7 @@
                                 <mva:VisualBasicValue x:TypeArguments="ui:QueueItem" ExpressionText="TransactionItem" />
                               </InArgument>
                               <InArgument x:TypeArguments="x:String" x:Key="in_PercentAtRisk">
-                                <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="PercentageAtRisk.ToString(&quot;#.##&quot;)" />
+                                <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="PercentageAtRisk.ToString(&quot;0.00&quot;)" />
                               </InArgument>
                             </ui:InvokeWorkflowFile.Arguments>
                           </ui:InvokeWorkflowFile>
