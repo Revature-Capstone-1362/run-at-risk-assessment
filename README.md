@@ -45,3 +45,14 @@ An automation to run at-risk assessments for individual associates and entire co
 ### Constraints
 - Input data workbooks must contain the following information with the specified column names: `Associate_Name, Trainer_Name, Manager_Name, GitHub_Organization, Core_Language, QC_Metrics`.
 - The `QC_Metrics` must be formatted as a string of numbers corresponding to QC scores (1 - red, 2 - yellow, 3 - green, 4 - blue). (ex. 233 means the associate received a yellow, green, and green)
+
+## Contributors
+- Team Baymax
+    - Warren Lee (Team Lead)
+    - Cynnetha Bellinger
+    - Frankline Elong
+    - Jaye Ayala
+- Team Iron Giant
+    - Mike Tuskey (Team Lead)
+    - Anthony McJunkins (Scrum Master)
+    - Diahandra Christian
