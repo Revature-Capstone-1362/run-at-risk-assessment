@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1208,1512</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1208,2963</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GetChecklistCompletion_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="35">
@@ -73,31 +73,16 @@
       <AssemblyReference>NPOI</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.Web</AssemblyReference>
       <AssemblyReference>UiPath.Platform</AssemblyReference>
       <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
       <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GetChecklistCompletion" sap:VirtualizedContainerService.HintSize="604,1407" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GetChecklistCompletion" sap:VirtualizedContainerService.HintSize="604,2858" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="workspaceBoardsContent" />
-      <Variable x:TypeArguments="x:String" Name="temp_TrelloAPIKey">
-        <Variable.Default>
-          <Literal x:TypeArguments="x:String">227bc14c5696091a8a5476a5a49e5d22</Literal>
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:String" Name="temp_TrelloAPIToken">
-        <Variable.Default>
-          <Literal x:TypeArguments="x:String">2c87065016ff13e9053398a5e2f51c322440cb870438a880c91cac83d603f7d9</Literal>
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:String" Name="temp_TrelloWorkspace">
-        <Variable.Default>
-          <Literal x:TypeArguments="x:String">userworkspace95961868</Literal>
-        </Variable.Default>
-      </Variable>
       <Variable x:TypeArguments="njl:JArray" Name="workspaceBoardsArray" />
       <Variable x:TypeArguments="x:String" Name="trelloBoardId">
         <Variable.Default>
@@ -106,6 +91,27 @@
       </Variable>
       <Variable x:TypeArguments="x:String" Name="associateName" />
       <Variable x:TypeArguments="x:String" Name="trelloBoardName" />
+      <Variable x:TypeArguments="x:String" Name="boardListsContent" />
+      <Variable x:TypeArguments="njl:JArray" Name="boardListsArray" />
+      <Variable x:TypeArguments="x:String" Name="trelloListId">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:String" Value="" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:String" Name="trelloCardsContent" />
+      <Variable x:TypeArguments="x:String" Name="trelloAPIKey" />
+      <Variable x:TypeArguments="x:String" Name="trelloAPIToken" />
+      <Variable x:TypeArguments="njl:JArray" Name="trelloCardsArray" />
+      <Variable x:TypeArguments="x:Decimal" Name="totalChecklistItems">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:Decimal" ExpressionText="0" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Decimal" Name="checkedChecklistItems">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:Decimal" ExpressionText="0" />
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -113,7 +119,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log start of workflow" sap:VirtualizedContainerService.HintSize="562,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Getting checklist completion...&quot;]" />
-    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="562,131" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="562,193" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
@@ -129,13 +135,29 @@
               <OutArgument x:TypeArguments="x:String">[trelloBoardName]</OutArgument>
             </ui:AssignOperation.To>
             <ui:AssignOperation.Value>
-              <InArgument x:TypeArguments="x:String">[String.Format("{0}-{1} Foundations Project", in_TransactionItem.SpecificContent("Trainer_Name").ToString, in_TransactionItem.SpecificContent("Core_Language").ToString)]</InArgument>
+              <InArgument x:TypeArguments="x:String">[String.Format("{0} - {1} Foundations Project", in_TransactionItem.SpecificContent("Trainer_Name").ToString, in_TransactionItem.SpecificContent("Core_Language").ToString)]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[trelloAPIKey]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_Config("TrelloAPIKey").ToString]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[trelloAPIToken]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[in_Config("TrelloAPIToken").ToString]</InArgument>
             </ui:AssignOperation.Value>
           </ui:AssignOperation>
         </scg:List>
       </ui:MultipleAssign.AssignOperations>
     </ui:MultipleAssign>
-    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/xml" DisplayName="Get boards in Trello workspace" EnableSSLVerification="True" EndPoint="[String.Format(&quot;https://api.trello.com/1/organizations/{0}/boards&quot;, temp_TrelloWorkspace)]" sap:VirtualizedContainerService.HintSize="562,57" sap2010:WorkflowViewState.IdRef="HttpClient_1" Method="GET" Result="[workspaceBoardsContent]" TimeoutMS="6000">
+    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/xml" DisplayName="Get boards in Trello workspace" EnableSSLVerification="True" EndPoint="[String.Format(&quot;https://api.trello.com/1/organizations/{0}/boards&quot;, in_Config(&quot;TrelloWorkspace&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="562,57" sap2010:WorkflowViewState.IdRef="HttpClient_1" Method="GET" Result="[workspaceBoardsContent]" TimeoutMS="6000">
       <ui:HttpClient.Attachments>
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
       </ui:HttpClient.Attachments>
@@ -147,10 +169,10 @@
       </ui:HttpClient.Headers>
       <ui:HttpClient.Parameters>
         <InArgument x:TypeArguments="x:String" x:Key="key">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="temp_TrelloAPIKey" />
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="trelloAPIKey" />
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="token">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="temp_TrelloAPIToken" />
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="trelloAPIToken" />
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="fields">
           <Literal x:TypeArguments="x:String">id,name</Literal>
@@ -161,36 +183,176 @@
       </ui:HttpClient.UrlSegments>
     </ui:HttpClient>
     <ui:DeserializeJsonArray DisplayName="Get JSON as array" sap:VirtualizedContainerService.HintSize="562,59" sap2010:WorkflowViewState.IdRef="DeserializeJsonArray_1" JsonArray="[workspaceBoardsArray]" JsonString="[workspaceBoardsContent]" />
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="562,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[workspaceBoardsContent]" />
-    <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="562,424" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[workspaceBoardsArray]">
+    <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="Iterate through boards in workspace" sap:VirtualizedContainerService.HintSize="562,578" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[workspaceBoardsArray]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="njl:JToken">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="njl:JToken" Name="workspaceBoard" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="526,300" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="526,454" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <If Condition="[workspaceBoard(&quot;name&quot;).ToString.Equals(trelloBoardName)]" DisplayName="Check if matching board found" sap:VirtualizedContainerService.HintSize="484,208" sap2010:WorkflowViewState.IdRef="If_1">
+            <If Condition="[workspaceBoard(&quot;name&quot;).ToString.Equals(trelloBoardName)]" DisplayName="Check if matching board found" sap:VirtualizedContainerService.HintSize="484,362" sap2010:WorkflowViewState.IdRef="If_1">
               <If.Then>
-                <Assign DisplayName="Get board id" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_2">
-                  <Assign.To>
-                    <OutArgument x:TypeArguments="x:String">[trelloBoardId]</OutArgument>
-                  </Assign.To>
-                  <Assign.Value>
-                    <InArgument x:TypeArguments="x:String">[workspaceBoard("id").ToString]</InArgument>
-                  </Assign.Value>
-                </Assign>
+                <Sequence sap:VirtualizedContainerService.HintSize="304,214" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="Get board id" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[trelloBoardId]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[workspaceBoard("id").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:Break DisplayName="Exit iteration" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="Break_1" />
+                </Sequence>
               </If.Then>
             </If>
           </Sequence>
         </ActivityAction>
       </ui:ForEach.Body>
     </ui:ForEach>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="562,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[trelloBoardId]" />
+    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/xml" DisplayName="Get lists in Trello board" EnableSSLVerification="True" EndPoint="[String.Format(&quot;https://api.trello.com/1/boards/{0}/lists&quot;, trelloBoardId)]" sap:VirtualizedContainerService.HintSize="562,57" sap2010:WorkflowViewState.IdRef="HttpClient_2" Method="GET" Result="[boardListsContent]" TimeoutMS="6000">
+      <ui:HttpClient.Attachments>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.Attachments>
+      <ui:HttpClient.Cookies>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.Cookies>
+      <ui:HttpClient.Headers>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.Headers>
+      <ui:HttpClient.Parameters>
+        <InArgument x:TypeArguments="x:String" x:Key="key">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="trelloAPIKey" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="token">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="trelloAPIToken" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="fields">
+          <Literal x:TypeArguments="x:String">id,name</Literal>
+        </InArgument>
+      </ui:HttpClient.Parameters>
+      <ui:HttpClient.UrlSegments>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.UrlSegments>
+    </ui:HttpClient>
+    <ui:DeserializeJsonArray DisplayName="Get JSON as array" sap:VirtualizedContainerService.HintSize="562,59" sap2010:WorkflowViewState.IdRef="DeserializeJsonArray_2" JsonArray="[boardListsArray]" JsonString="[boardListsContent]" />
+    <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="Iterate through lists in board" sap:VirtualizedContainerService.HintSize="562,578" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[boardListsArray]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="njl:JToken">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="njl:JToken" Name="boardList" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="526,454" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[boardList(&quot;name&quot;).ToString.Equals(associateName)]" DisplayName="Check if matching list found" sap:VirtualizedContainerService.HintSize="484,362" sap2010:WorkflowViewState.IdRef="If_2">
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="304,214" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="Get list id" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[trelloListId]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[boardList("id").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:Break DisplayName="Exit iteration" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="Break_2" />
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/xml" DisplayName="Get cards in Trello list" EnableSSLVerification="True" EndPoint="[String.Format(&quot;https://api.trello.com/1/lists/{0}/cards&quot;, trelloListId)]" sap:VirtualizedContainerService.HintSize="562,57" sap2010:WorkflowViewState.IdRef="HttpClient_3" Method="GET" Result="[trelloCardsContent]" TimeoutMS="6000">
+      <ui:HttpClient.Attachments>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.Attachments>
+      <ui:HttpClient.Cookies>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.Cookies>
+      <ui:HttpClient.Headers>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.Headers>
+      <ui:HttpClient.Parameters>
+        <InArgument x:TypeArguments="x:String" x:Key="key">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="trelloAPIKey" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="token">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="trelloAPIToken" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="fields">
+          <Literal x:TypeArguments="x:String">badges</Literal>
+        </InArgument>
+      </ui:HttpClient.Parameters>
+      <ui:HttpClient.UrlSegments>
+        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+      </ui:HttpClient.UrlSegments>
+    </ui:HttpClient>
+    <ui:DeserializeJsonArray DisplayName="Get JSON as array" sap:VirtualizedContainerService.HintSize="562,59" sap2010:WorkflowViewState.IdRef="DeserializeJsonArray_3" JsonArray="[trelloCardsArray]" JsonString="[trelloCardsContent]" />
+    <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="Iterate through cards in list" sap:VirtualizedContainerService.HintSize="562,347" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[trelloCardsArray]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="njl:JToken">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="njl:JToken" Name="trelloCard" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="473,223" sap2010:WorkflowViewState.IdRef="Sequence_8">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:MultipleAssign DisplayName="Get checklist item counts" sap:VirtualizedContainerService.HintSize="431,131" sap2010:WorkflowViewState.IdRef="MultipleAssign_2">
+              <ui:MultipleAssign.AssignOperations>
+                <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="x:Decimal">[totalChecklistItems]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="x:Decimal">[totalChecklistItems + Decimal.Parse(trelloCard.SelectToken("badges.checkItems").ToString)]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_6">
+                    <ui:AssignOperation.To>
+                      <OutArgument x:TypeArguments="x:Decimal">[checkedChecklistItems]</OutArgument>
+                    </ui:AssignOperation.To>
+                    <ui:AssignOperation.Value>
+                      <InArgument x:TypeArguments="x:Decimal">[checkedChecklistItems + Decimal.Parse(trelloCard.SelectToken("badges.checkItemsChecked").ToString)]</InArgument>
+                    </ui:AssignOperation.Value>
+                  </ui:AssignOperation>
+                </scg:List>
+              </ui:MultipleAssign.AssignOperations>
+            </ui:MultipleAssign>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <Assign DisplayName="Get checklist completion" sap:VirtualizedContainerService.HintSize="562,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Decimal">[out_ChecklistCompletion]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Decimal">[checkedChecklistItems / totalChecklistItems]</InArgument>
+      </Assign.Value>
+    </Assign>
     <ui:LogMessage DisplayName="Log end of workflow" sap:VirtualizedContainerService.HintSize="562,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Checklist completion retrieved...&quot;]" />
   </Sequence>
 </Activity>

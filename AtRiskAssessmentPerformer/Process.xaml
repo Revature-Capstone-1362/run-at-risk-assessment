@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1208,1188</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1208,1340</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -73,10 +73,10 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="809,1083" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="809,1235" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Decimal" Name="QCAverage" />
-      <Variable x:TypeArguments="x:Decimal" Default="[1]" Name="ChecklistCompletion" />
+      <Variable x:TypeArguments="x:Decimal" Name="ChecklistCompletion" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -84,14 +84,14 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Sequence DisplayName="At_Risk_Associate_Report" sap:VirtualizedContainerService.HintSize="767,919" sap2010:WorkflowViewState.IdRef="Sequence_5">
+    <Sequence DisplayName="At_Risk_Associate_Report" sap:VirtualizedContainerService.HintSize="767,1071" sap2010:WorkflowViewState.IdRef="Sequence_5">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <Sequence DisplayName="GenerateReport" sap:VirtualizedContainerService.HintSize="725,827" sap2010:WorkflowViewState.IdRef="Sequence_4">
+      <Sequence DisplayName="GenerateReport" sap:VirtualizedContainerService.HintSize="725,979" sap2010:WorkflowViewState.IdRef="Sequence_4">
         <Sequence.Variables>
           <Variable x:TypeArguments="x:String" Name="associateName" />
           <Variable x:TypeArguments="x:String" Name="currentDate" />
@@ -108,6 +108,19 @@
           <ui:InvokeWorkflowFile.Arguments>
             <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">[in_TransactionItem]</InArgument>
             <OutArgument x:TypeArguments="x:Decimal" x:Key="out_QCAverage">[QCAverage]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke GetChecklistCompletion workflow" sap:VirtualizedContainerService.HintSize="683,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Framework\GetChecklistCompletion.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
+              <mva:VisualBasicValue x:TypeArguments="ui:QueueItem" ExpressionText="in_TransactionItem" />
+            </InArgument>
+            <OutArgument x:TypeArguments="x:Decimal" x:Key="out_ChecklistCompletion">
+              <mva:VisualBasicReference x:TypeArguments="x:Decimal" ExpressionText="ChecklistCompletion" />
+            </OutArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+              <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+            </InArgument>
           </ui:InvokeWorkflowFile.Arguments>
         </ui:InvokeWorkflowFile>
         <If Condition="[(QCAverage &lt;= 2.0) Or (ChecklistCompletion &lt; 0.75)]" sap:VirtualizedContainerService.HintSize="683,452" sap2010:WorkflowViewState.IdRef="If_1">
